@@ -22,10 +22,10 @@
             <label>Second</label>
             <input type="text" name="number2">
             <br>
-            <button name="+">+</button>
-            <button name="-">-</button>
-            <button name="*">*</button>
-            <button name="%">%</button>
+            <input type="submit" name="button" value="+">
+            <input type="submit" name="button" value="-">
+            <input type="submit" name="button" value="*">
+            <input type="submit" name="button" value="%">
         </form>
         <p>${result}</p>
         <p>${exceptionMessage}</p>

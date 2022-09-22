@@ -6,7 +6,6 @@
 package com.jay;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +24,49 @@ public class ArithmeticCalculator extends HttpServlet {
 
     }
 
- @Override
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        String operand = req.getParameter("+");
-        req.setAttribute("result", operand);
-        getServletContext().getRequestDispatcher("/WEB-INF/jsp/arithmeticcalculator.jsp").forward(req, res);
+
+        try {
+            String operand = req.getParameter("button");
+            String number1 = req.getParameter("number1");
+            String number2 = req.getParameter("number2");
+            int result = 0;
+
+            if (number1 == "" && number2 == "") {
+                req.setAttribute("exceptionMessage", "Result: ---");
+                getServletContext().getRequestDispatcher("/WEB-INF/jsp/arithmeticcalculator.jsp").forward(req, res);
+                return;
+            }
+            if (number1 == "" || number2 == "") {
+                req.setAttribute("exceptionMessage", "Result: invalid");
+                getServletContext().getRequestDispatcher("/WEB-INF/jsp/arithmeticcalculator.jsp").forward(req, res);
+                return;
+            }
+            int num1 = Integer.parseInt(number1);
+            int num2 = Integer.parseInt(number2);
+            switch (operand) {
+                case "+":
+                    result = num1 + num2;
+                    break;
+                case "-":
+                    result = num1 - num2;
+                    break;
+                case "*":
+                    result = num1 * num2;
+                    break;
+                case "%":
+                    result = num1 % num2;
+                    break;
+
+            }
+            req.setAttribute("result", "Result: " + result);
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/arithmeticcalculator.jsp").forward(req, res);
+        } catch (NumberFormatException e) {
+            req.setAttribute("result", "Result: invalid");
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/arithmeticcalculator.jsp").forward(req, res);
+        }
     }
+
 }
